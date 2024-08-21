@@ -37,8 +37,9 @@ def extract_dates(text):
     # Find all occurrences of the date pattern
     dates = re.findall(date_pattern, text)
     
-    if len(dates) == 2:
-        start_date, end_date = dates
+    if len(dates) >= 2:
+        start_date = dates[0]
+        end_date = dates[1]
         return start_date, end_date
     else:
         return None, None
@@ -67,8 +68,8 @@ def getProductPrice(driver):
         else:
             stickerPrice = driver.find_element(By.CSS_SELECTOR, 'span.value').text
             return stickerPrice
-    except Exception as e:
-        print(f"Error occurred: {e}")
+    except:
+        print("Price not found")
 
 def getProductPromotion(driver):
     try:
@@ -81,12 +82,12 @@ def getProductPromotion(driver):
             "endDate": endDate
         }
     except Exception as e:
-        print(f"Error occurred: {e}")
+        print("Deal not found")
 
 def getProductDetails(driver):
     try:
-        wait_for_element_stability(driver, (By.CSS_SELECTOR, 'span.value'), 5)
-        if element_exists(driver, (By.CSS_SELECTOR, 'span.value'), 0):
+        if element_exists(driver, (By.CSS_SELECTOR, 'span.value'), 1):
+            wait_for_element_stability(driver, (By.CSS_SELECTOR, 'span.value'), 4)
             itemNumber = getProductNumber(driver)
             stickerPrice = getProductPrice(driver)
             promotion = getProductPromotion(driver)
@@ -95,6 +96,7 @@ def getProductDetails(driver):
             print(promotion)
     except Exception as e:
         print(f"Error occurred: {e}")
+        pass
 
 def getProductsFromItemNumbers(item_numbers):
     service = Service("chromedriver.exe")
