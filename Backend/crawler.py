@@ -86,7 +86,7 @@ def getProductPromotion(driver):
 
 def getProductDetails(driver):
     try:
-        if element_exists(driver, (By.CSS_SELECTOR, 'span.value'), 1):
+        if element_exists(driver, (By.CSS_SELECTOR, 'span.value'), 2):
             wait_for_element_stability(driver, (By.CSS_SELECTOR, 'span.value'), 4)
             itemNumber = getProductNumber(driver)
             stickerPrice = getProductPrice(driver)
